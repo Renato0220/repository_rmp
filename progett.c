@@ -3,7 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
+#include "tecnico.h"
 
 void stampa_menu() {
     printf("\n\t __________________________________________ \n");
@@ -31,9 +32,32 @@ void opzione_uno() {                                                         // 
     printf("\n--- Hai scelto l'opzione 1 ---\n");
    //DA AMPLIARE ............
 }                                                 
-void opzione_due() {                                                        //Registrazione dei tecnici
-    printf("\n--- Hai scelto l'opzione 2 ---\n");
-     //DA AMPLIARE ............
+void opzione_due(Tecnico **lista) { 
+    int id;
+    char nome[50], spec[50];
+
+    printf("\n--- REGISTRAZIONE NUOVO TECNICO ---\n");
+    
+    printf("ID (numero): ");
+    scanf("%d", &id);
+    getchar(); // Pulizia del buffer per non saltare il nome
+
+    printf("Nome e Cognome: ");
+    fgets(nome, 50, stdin);
+    nome[strcspn(nome, "\n")] = 0; // Toglie l'invio finale
+
+    printf("Specializzazione: ");
+    fgets(spec, 50, stdin);
+    spec[strcspn(spec, "\n")] = 0;
+
+    // Chiama la funzione presente in tecnico.c
+    if (registra_tecnico(lista, id, nome, spec)) {
+        printf("\n[OK] Tecnico registrato con successo!\n");
+    } else {
+        printf("\n[ERRORE] Memoria piena, impossibile aggiungere.\n");
+    }
+
+
 }
                              
 void opzione_tre() {                                                     //Assegnazione di una richiesta    
@@ -90,7 +114,7 @@ void pulisci_schermo() {
 int main () { 
 
     int scelta ; 
-
+    Tecnico *lista_tecnici = NULL;
 
      do {                                                       // ciclo per la scelta delle varie opzioni 
         
@@ -107,8 +131,8 @@ int main () {
 
             case 1 : opzione_uno(); 
             break;
-
-            case 2 : opzione_due();
+			
+			case 2 : opzione_due(&lista_tecnici); // Passiamo l'indirizzo della lista con la &
             break;
 
             case 3 : opzione_tre(); 
