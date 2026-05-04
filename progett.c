@@ -100,12 +100,6 @@ void opzione_dieci() {                                          // Report
      //DA AMPLIARE ............
 }
 
-void pulisci_schermo() {
-
-  printf("\033[2J\033[H");                                    //questo è un trucchetto che ci permetto di pulire lo schermo semplice e veloce 
-
-}                                                             //per una questione piu estetica 
-
 
 
 
@@ -118,7 +112,6 @@ int main () {
 
      do {                                                       // ciclo per la scelta delle varie opzioni 
         
-        pulisci_schermo();
         stampa_menu();              
         
         printf("\n\n\tScelta: ");
