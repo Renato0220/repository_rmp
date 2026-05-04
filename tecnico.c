@@ -13,7 +13,7 @@ int registra_tecnico(Tecnico **lista, int id, const char *nome, const char *spec
 
     /* Assegnazione dei dati */
     nuovo->id = id;
-    strncpy(nuovo->nome, nome, 49);
+    strncpy(nuovo->nome, nome, 49);  /*Utilizziamo Strncpy per evitare buffer overflow */
     strncpy(nuovo->specializzazione, spec, 49);
     nuovo->disponibile = 1; /* Di default il tecnico è libero */
 
