@@ -60,10 +60,15 @@ void stampa_menu() {
 }
 
 
-void opzione_uno() {                                                         // Inserimento di una nuova richiesta
-    printf("\n--- Hai scelto l'opzione 1 ---\n");
-   //DA AMPLIARE ............
-}                                                 
+void opzione_uno(Richiesta richieste[], int *nRichieste) {
+
+    printf("\n--- INSERIMENTO NUOVA RICHIESTA ---\n");
+
+    aggiungiRichiesta(richieste, nRichieste);
+}   
+
+
+
 void opzione_due(Tecnico **lista) { 
     int id;
     char nome[50], spec[50];
@@ -285,8 +290,8 @@ int main () {
         
         switch (scelta) {
 
-            case 1 : opzione_uno(aggiungiRichiesta(richieste, &nRichieste);); 
-            break;
+            case 1:  opzione_uno(richieste, &nRichieste);
+    	    break;
 			
 			case 2 : opzione_due(&lista_tecnici); // Passiamo l'indirizzo della lista con la &
             break;
