@@ -27,4 +27,5 @@ int pianificaIntervento(
 
 void stampaInterventi(Intervento interventi[], int n);
 
-#endif
+
+void visualizzaStorico(Intervento interventi[], int nInterventi) ;           // Visualizzazione dello storico degli interventi completati 
