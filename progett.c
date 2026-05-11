@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "richieste.h" 
 #include "tecnico.h"
 
 // ================== STRUTTURA INTERVENTO ==================
@@ -28,6 +30,11 @@ Intervento interventi[100];
 
 // numero interventi
 int nInterventi = 0;
+
+
+//array richieste 
+Richiesta richieste[MAX];
+int nRichieste = 0;
 
 
 
@@ -89,13 +96,15 @@ void opzione_tre() {                                                     //Asseg
     printf("\n--- Hai scelto l'opzione 3 ---\n");
      //DA AMPLIARE ............
 }
-
-        
-
-void opzione_cinque() {                                                  //Aggiorna stato
-    printf("\n--- Hai scelto l'opzione 5 ---\n");
-     //DA AMPLIARE ............
+                
+   
+void opzione_cinque(Richiesta richieste[], int nRichieste) {                        //Aggiorna stato
+    aggiornaStatoRichiesta(richieste, nRichieste);
 }
+
+
+
+
 
 void opzione_sei() {                                                     //Visualizza richieste
     printf("\n--- Hai scelto l'opzione 6 ---\n");
@@ -260,6 +269,7 @@ void opzione_dieci() {
 
 int main () { 
 
+ 
     int scelta ; 
     Tecnico *lista_tecnici = NULL;
 
@@ -275,19 +285,19 @@ int main () {
         
         switch (scelta) {
 
-            case 1 : opzione_uno(); 
+            case 1 : opzione_uno(aggiungiRichiesta(richieste, &nRichieste);); 
             break;
 			
 			case 2 : opzione_due(&lista_tecnici); // Passiamo l'indirizzo della lista con la &
             break;
 
             case 3 : opzione_tre(); 
-            
             break;
+
             case 4 : opzione_quattro(); 
             break;
 
-            case 5 : opzione_cinque() ; 
+            case 5:  opzione_cinque(aggiornaStatoRichiesta(richieste, nRichieste););        //opzione 5 funziona solo se la richiesta esiste e un tecnico è stato assegnato, altrimenti stampa richiesta non trovata o tecnico non assegnato
             break;
 
             case 6 : opzione_sei();
@@ -347,5 +357,6 @@ scelti per gestire richieste, tecnici, pianificazione, priorità e ricerche.
 ● Specifica Sintattica e Semantica: Descrivere operazioni, pre/post condizioni,
 input/output ed effetti collaterali.
 ● Razionale dei Casi di Test.*/
+
 
 
