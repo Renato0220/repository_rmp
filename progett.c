@@ -6,6 +6,31 @@
 #include <string.h>
 #include "tecnico.h"
 
+// ================== STRUTTURA INTERVENTO ==================
+
+typedef struct {
+
+    int codiceRichiesta;
+
+    int idTecnico;
+
+    char data[20];
+
+    int oraInizio;
+
+    int oraFine;
+
+} Intervento;
+
+
+// array interventi
+Intervento interventi[100];
+
+// numero interventi
+int nInterventi = 0;
+
+
+
 void stampa_menu() {
     printf("\n\t __________________________________________ \n");
     printf("\t|             MENU PRINCIPALE              |\n");
@@ -65,10 +90,7 @@ void opzione_tre() {                                                     //Asseg
      //DA AMPLIARE ............
 }
 
-void opzione_quattro() {                                                 //Pianifica intervento
-    printf("\n--- Hai scelto l'opzione 4 ---\n");
-     //DA AMPLIARE ............
-}          
+        
 
 void opzione_cinque() {                                                  //Aggiorna stato
     printf("\n--- Hai scelto l'opzione 5 ---\n");
@@ -80,10 +102,6 @@ void opzione_sei() {                                                     //Visua
      //DA AMPLIARE ............
 }
 
-void opzione_sette() {                                               // Ricerca per codice o tipologia
-    printf("\n--- Hai scelto l'opzione 7 ---\n");
-     //DA AMPLIARE ............
-}
 
 void opzione_otto() {                                        //Visualizzazione dello storico
     printf("\n--- Hai scelto l'opzione 8 ---\n");
@@ -95,14 +113,149 @@ void opzione_nove() {                                             //Monitoraggio
      //DA AMPLIARE ............
 }
 
-void opzione_dieci() {                                          // Report
-    printf("\n--- Hai scelto l'opzione 10 ---\n");
-     //DA AMPLIARE ............
+
+
+// ================== PIANIFICAZIONE INTERVENTO ==================
+
+void opzione_quattro() {
+
+    int i;
+
+    Intervento nuovo;
+
+    int conflitto = 0;
+
+    printf("\n--- PIANIFICAZIONE INTERVENTO ---\n");
+
+    printf("Codice richiesta: ");
+    scanf("%d", &nuovo.codiceRichiesta);
+
+    printf("ID Tecnico: ");
+    scanf("%d", &nuovo.idTecnico);
+
+    printf("Data (YYYY-MM-DD): ");
+    scanf("%s", nuovo.data);
+
+    printf("Ora inizio: ");
+    scanf("%d", &nuovo.oraInizio);
+
+    printf("Ora fine: ");
+    scanf("%d", &nuovo.oraFine);
+
+    // controllo conflitti
+    for (i = 0; i < nInterventi; i++) {
+
+        if (
+            interventi[i].idTecnico == nuovo.idTecnico &&
+            strcmp(interventi[i].data, nuovo.data) == 0
+        ) {
+
+            if (
+                nuovo.oraInizio < interventi[i].oraFine &&
+                nuovo.oraFine > interventi[i].oraInizio
+            ) {
+
+                conflitto = 1;
+            }
+        }
+    }
+
+    // se esiste conflitto
+    if (conflitto) {
+
+        printf("\nERRORE: conflitto di orario!\n");
+
+        return;
+    }
+
+    // salvataggio intervento
+    interventi[nInterventi] = nuovo;
+
+    nInterventi++;
+
+    printf("\nIntervento pianificato correttamente!\n");
 }
 
+// ================== RICERCA INTERVENTO ==================
 
+void opzione_sette() {
 
+    int codice;
 
+    int i;
+
+    printf("\n--- RICERCA INTERVENTO ---\n");
+
+    printf("Inserisci codice richiesta: ");
+
+    scanf("%d", &codice);
+
+    for (i = 0; i < nInterventi; i++) {
+
+        if (interventi[i].codiceRichiesta == codice) {
+
+            printf("\nIntervento trovato!\n");
+
+            printf("Codice richiesta: %d\n",
+                   interventi[i].codiceRichiesta);
+
+            printf("Tecnico: %d\n",
+                   interventi[i].idTecnico);
+
+            printf("Data: %s\n",
+                   interventi[i].data);
+
+            printf("Orario: %d - %d\n",
+                   interventi[i].oraInizio,
+                   interventi[i].oraFine);
+
+            return;
+        }
+    }
+
+    printf("\nIntervento non trovato\n");
+}
+
+// ================== GENERAZIONE REPORT ==================
+
+void opzione_dieci() {
+
+    int i;
+
+    printf("\n===== REPORT INTERVENTI =====\n");
+
+    printf("Numero totale interventi: %d\n",
+           nInterventi);
+
+    // controllo presenza interventi
+    if (nInterventi == 0) {
+
+        printf("Nessun intervento presente\n");
+
+        return;
+    }
+
+    // stampa interventi
+    for (i = 0; i < nInterventi; i++) {
+
+        printf("\n--- Intervento %d ---\n", i + 1);
+
+        printf("Codice richiesta: %d\n",
+               interventi[i].codiceRichiesta);
+
+        printf("Tecnico: %d\n",
+               interventi[i].idTecnico);
+
+        printf("Data: %s\n",
+               interventi[i].data);
+
+        printf("Orario: %d - %d\n",
+               interventi[i].oraInizio,
+               interventi[i].oraFine);
+    }
+
+    printf("\n===== FINE REPORT =====\n");
+}
 
 
 int main () { 
