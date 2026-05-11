@@ -65,3 +65,52 @@ void stampaInterventi(Intervento interventi[], int n) {
                interventi[i].oraFine);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    void visualizzaStorico(Intervento interventi[], int nInterventi) {              //Visualizzazione dello storico degli interventi completati            
+
+    int trovati = 0;
+
+    printf("\n╔════════════════════════════════════════════════════════════╗\n");
+    printf("║              STORICO INTERVENTI COMPLETATI                 ║\n");
+    printf("╚════════════════════════════════════════════════════════════╝\n\n");
+
+    printf("┌────────┬──────────┬────────────┬────────────┬────────────┐\n");
+    printf("│ CODICE │ TECNICO  │    DATA    │    INIZIO  │     FINE   │\n");
+    printf("├────────┼──────────┼────────────┼────────────┼────────────┤\n");
+
+    for (int i = 0; i < nInterventi; i++) {
+
+        if (strcmp(interventi[i].stato, "conclusa") == 0) {
+
+            printf("│ %-6d │ %-8d │ %-10s │ %-10d │ %-10d │\n",
+                   interventi[i].codiceRichiesta,
+                   interventi[i].idTecnico,
+                   interventi[i].data,
+                   interventi[i].oraInizio,
+                   interventi[i].oraFine);
+
+            trovati++;
+        }
+    }
+
+    if (trovati == 0) {
+        printf("│ %-52s │\n", "Nessun intervento completato presente.");
+    }
+
+  printf("___________________________________________________________\n");
+}
+
+  
