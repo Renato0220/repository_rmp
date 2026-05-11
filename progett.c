@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "richieste.h" 
 #include "tecnico.h"
 
 // ================== STRUTTURA INTERVENTO ==================
@@ -30,6 +32,11 @@ Intervento interventi[100];
 int nInterventi = 0;
 
 
+//array richieste 
+Richiesta richieste[MAX];
+int nRichieste = 0;
+
+
 
 void stampa_menu() {
     printf("\n\t __________________________________________ \n");
@@ -53,10 +60,14 @@ void stampa_menu() {
 }
 
 
-void opzione_uno() {                                                         // Inserimento di una nuova richiesta
-    printf("\n--- Hai scelto l'opzione 1 ---\n");
-   //DA AMPLIARE ............
-}                                                 
+void opzione_uno(Richiesta richieste[], int *nRichieste) {
+
+    printf("\n--- INSERIMENTO NUOVA RICHIESTA ---\n");
+
+    aggiungiRichiesta(richieste, nRichieste);
+}  
+
+
 void opzione_due(Tecnico **lista) { 
     int id;
     char nome[50], spec[50];
@@ -87,29 +98,6 @@ void opzione_due(Tecnico **lista) {
                              
 void opzione_tre() {                                                     //Assegnazione di una richiesta    
     printf("\n--- Hai scelto l'opzione 3 ---\n");
-     //DA AMPLIARE ............
-}
-
-        
-
-void opzione_cinque() {                                                  //Aggiorna stato
-    printf("\n--- Hai scelto l'opzione 5 ---\n");
-     //DA AMPLIARE ............
-}
-
-void opzione_sei() {                                                     //Visualizza richieste
-    printf("\n--- Hai scelto l'opzione 6 ---\n");
-     //DA AMPLIARE ............
-}
-
-
-void opzione_otto() {                                        //Visualizzazione dello storico
-    printf("\n--- Hai scelto l'opzione 8 ---\n");
-     //DA AMPLIARE ............
-}
-
-void opzione_nove() {                                             //Monitoraggio del carico di lavoro
-    printf("\n--- Hai scelto l'opzione 9 ---\n");
      //DA AMPLIARE ............
 }
 
@@ -176,9 +164,34 @@ void opzione_quattro() {
     printf("\nIntervento pianificato correttamente!\n");
 }
 
+
+
+
+                
+   
+//                  Aggiorna stato della richiesta 
+
+void opzione_cinque(Richiesta richieste[], int nRichieste) {                           
+    aggiornaStatoRichiesta(richieste, nRichieste);
+}
+
+
+
+
+
+void opzione_sei() {                                                     //Visualizza richieste
+    printf("\n--- Hai scelto l'opzione 6 ---\n");
+     //DA AMPLIARE ............
+}
+
+
+
+
+
 // ================== RICERCA INTERVENTO ==================
 
-void opzione_sette() {
+void opzione_sette() { 
+
 
     int codice;
 
@@ -215,6 +228,24 @@ void opzione_sette() {
 
     printf("\nIntervento non trovato\n");
 }
+
+
+
+
+
+
+void opzione_otto() (Intervento interventi[], int nInterventi) {                         //Visualizzazione storico interventi 
+
+    visualizzaStorico(interventi, nInterventi);
+}
+
+void opzione_nove() {                                                          //Monitoraggio del carico di lavoro
+    printf("\n--- Hai scelto l'opzione 9 ---\n");
+     //DA AMPLIARE ............
+}
+
+
+
 
 // ================== GENERAZIONE REPORT ==================
 
@@ -260,6 +291,7 @@ void opzione_dieci() {
 
 int main () { 
 
+ 
     int scelta ; 
     Tecnico *lista_tecnici = NULL;
 
@@ -275,19 +307,19 @@ int main () {
         
         switch (scelta) {
 
-            case 1 : opzione_uno(); 
+            case 1 : opzione_uno(richieste, &nRichieste);           // Passiamo l'array richieste e il numero di richieste con &  
             break;
 			
 			case 2 : opzione_due(&lista_tecnici); // Passiamo l'indirizzo della lista con la &
             break;
 
             case 3 : opzione_tre(); 
-            
             break;
+
             case 4 : opzione_quattro(); 
             break;
 
-            case 5 : opzione_cinque() ; 
+            case 5:  aggiornaStatoRichiesta(richieste, nRichieste);        //opzione 5 funziona solo se la richiesta esiste e un tecnico è stato assegnato, altrimenti stampa richiesta non trovata o tecnico non assegnato
             break;
 
             case 6 : opzione_sei();
@@ -296,7 +328,7 @@ int main () {
             case 7 : opzione_sette();
             break;
 
-            case 8 : opzione_otto();
+            case 8 : visualizzaStorico(interventi, nInterventi);   // Passiamo l'array interventi e il numero di interventi con & 
             break;
 
             case 9 : opzione_nove();
@@ -323,29 +355,5 @@ int main () {
 
 }
 
-
-
-
-
-
-/*Casi di Test:
-● Verifica della registrazione delle richieste
-● Test della registrazione dei tecnici
-● Verifica dell’assegnazione corretta
-● Test della pianificazione e gestione conflitti
-● Verifica aggiornamento stato
-● Test della ricerca e filtri
-● Verifica dello storico interventi
-● Test della generazione dei report
-
-
-
-Report:
-● Motivazione della Scelta dell'ADT: Illustrare perché specifici ADT sono stati
-scelti per gestire richieste, tecnici, pianificazione, priorità e ricerche.
-● Progettazione: Descrivere l’architettura del sistema e l’interazione tra i moduli.
-● Specifica Sintattica e Semantica: Descrivere operazioni, pre/post condizioni,
-input/output ed effetti collaterali.
-● Razionale dei Casi di Test.*/
 
 
