@@ -27,3 +27,4 @@ int pianificaIntervento(
 
 void stampaInterventi(Intervento interventi[], int n);
 
+#endif
