@@ -1,0 +1,42 @@
+// ================== RICERCA INTERVENTO PER CODICE ==================
+
+int cercaInterventoPerCodice(
+    Intervento interventi[],
+    int n,
+    int codiceRichiesta
+) {
+
+    int i;
+
+    // ciclo ricerca nell'array interventi
+    for (i = 0; i < n; i++) {
+
+        // confronto codice richiesta
+        if (interventi[i].codiceRichiesta == codiceRichiesta) {
+
+            printf("\n--- INTERVENTO TROVATO ---\n");
+
+            // stampa informazioni intervento
+            printf("Codice richiesta: %d\n",
+                   interventi[i].codiceRichiesta);
+
+            printf("Tecnico assegnato: %d\n",
+                   interventi[i].idTecnico);
+
+            printf("Data: %s\n",
+                   interventi[i].data);
+
+            printf("Orario: %d - %d\n",
+                   interventi[i].oraInizio,
+                   interventi[i].oraFine);
+
+            // restituisce posizione intervento
+            return i;
+        }
+    }
+
+    // intervento non trovato
+    printf("Intervento non trovato\n");
+
+    return -1;
+}
