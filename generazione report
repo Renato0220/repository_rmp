@@ -1,0 +1,52 @@
+// ================== GENERAZIONE REPORT ==================
+
+void generaReport(
+    Intervento interventi[],
+    int n
+) {
+
+    int i;
+
+    // numero totale interventi
+    int totale = n;
+
+    printf("\n===== REPORT INTERVENTI =====\n");
+
+    // stampa numero interventi
+    printf("Numero totale interventi: %d\n", totale);
+
+    // controllo presenza interventi
+    if (totale == 0) {
+
+        printf("Nessun intervento presente\n");
+
+        return;
+    }
+
+    printf("\nElenco interventi:\n");
+
+    // stampa tutti gli interventi
+    for (i = 0; i < n; i++) {
+
+        printf("\n--- Intervento %d ---\n", i + 1);
+
+        // stampa codice richiesta
+        printf("Richiesta: %d\n",
+               interventi[i].codiceRichiesta);
+
+        // stampa tecnico assegnato
+        printf("Tecnico: %d\n",
+               interventi[i].idTecnico);
+
+        // stampa data intervento
+        printf("Data: %s\n",
+               interventi[i].data);
+
+        // stampa fascia oraria
+        printf("Orario: %d - %d\n",
+               interventi[i].oraInizio,
+               interventi[i].oraFine);
+    }
+
+    printf("\n===== FINE REPORT =====\n");
+}
