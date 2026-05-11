@@ -49,5 +49,27 @@ int cercaRichiestaPerCodice(
 );
 
 
+
+
+
+
+
+
+// queste 2 funzioni aggiorna Stato Richiesta e cambio Stato Valido servono per l'opzione 5 del menu principale, ovvero aggiornamento stato richiesta 
+// aggiorna lo stato di una richiesta se il passaggio è valido 
+// da aperta a pianificata, da pianificata passa in lavorazione, da in lavorazione a conclusa .
+
+void aggiornaStatoRichiesta(
+    Richiesta richieste[],
+    int nRichieste
+);
+
+int cambioStatoValido(
+    char statoAttuale[],
+    char nuovoStato[]
+);
+
+
+
 #endif
 
