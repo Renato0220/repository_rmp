@@ -4,23 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "richieste.h" 
 #include "tecnico.h"
-
-// ================== STRUTTURA INTERVENTO ==================
-
-typedef struct {
-
-    int codiceRichiesta;
-
-    int idTecnico;
-
-    char data[20];
-
-    int oraInizio;
-
-    int oraFine;
-
-} Intervento;
+#include "interventi.h"
 
 
 // array interventi
@@ -28,6 +15,11 @@ Intervento interventi[100];
 
 // numero interventi
 int nInterventi = 0;
+Tecnico *listaTecnici;              // lista dinamica tecnici 
+
+//array richieste 
+Richiesta richieste[MAX];
+int nRichieste = 0;
 
 
 
@@ -53,10 +45,14 @@ void stampa_menu() {
 }
 
 
-void opzione_uno() {                                                         // Inserimento di una nuova richiesta
-    printf("\n--- Hai scelto l'opzione 1 ---\n");
-   //DA AMPLIARE ............
-}                                                 
+void opzione_uno(Richiesta richieste[], int *nRichieste) {
+
+    printf("\n--- INSERIMENTO NUOVA RICHIESTA ---\n");
+
+    aggiungiRichiesta(richieste, nRichieste);
+}  
+
+
 void opzione_due(Tecnico **lista) { 
     int id;
     char nome[50], spec[50];
@@ -85,34 +81,10 @@ void opzione_due(Tecnico **lista) {
 
 }
                              
-void opzione_tre() {                                                     //Assegnazione di una richiesta    
-    printf("\n--- Hai scelto l'opzione 3 ---\n");
-     //DA AMPLIARE ............
+void opzione_tre(Richiesta richieste[], int *nRichieste, Tecnico *listaTecnici) {           // Assegna un tecnico disponibile a una richiesta specifica, aggiornando lo stato della richiesta e la disponibilità del tecnico
+
+    assegnaTecnico(richieste, *nRichieste, listaTecnici);
 }
-
-        
-
-void opzione_cinque() {                                                  //Aggiorna stato
-    printf("\n--- Hai scelto l'opzione 5 ---\n");
-     //DA AMPLIARE ............
-}
-
-void opzione_sei() {                                                     //Visualizza richieste
-    printf("\n--- Hai scelto l'opzione 6 ---\n");
-     //DA AMPLIARE ............
-}
-
-
-void opzione_otto() {                                        //Visualizzazione dello storico
-    printf("\n--- Hai scelto l'opzione 8 ---\n");
-     //DA AMPLIARE ............
-}
-
-void opzione_nove() {                                             //Monitoraggio del carico di lavoro
-    printf("\n--- Hai scelto l'opzione 9 ---\n");
-     //DA AMPLIARE ............
-}
-
 
 
 // ================== PIANIFICAZIONE INTERVENTO ==================
@@ -176,9 +148,34 @@ void opzione_quattro() {
     printf("\nIntervento pianificato correttamente!\n");
 }
 
+
+
+
+                
+   
+//                  Aggiorna stato della richiesta 
+
+void opzione_cinque(Richiesta richieste[], int nRichieste) {                           
+    aggiornaStatoRichiesta(richieste, nRichieste);
+}
+
+
+
+
+
+void opzione_sei() {                                                     //Visualizza richieste
+    printf("\n--- Hai scelto l'opzione 6 ---\n");
+     //DA AMPLIARE ............
+}
+
+
+
+
+
 // ================== RICERCA INTERVENTO ==================
 
-void opzione_sette() {
+void opzione_sette() { 
+
 
     int codice;
 
@@ -215,6 +212,24 @@ void opzione_sette() {
 
     printf("\nIntervento non trovato\n");
 }
+
+
+
+
+
+
+void opzione_otto(Intervento interventi[], int nInterventi) {                         //Visualizzazione storico interventi 
+
+    visualizzaStorico(interventi, nInterventi);
+}
+
+void opzione_nove() {                                                          //Monitoraggio del carico di lavoro
+    printf("\n--- Hai scelto l'opzione 9 ---\n");
+     //DA AMPLIARE ............
+}
+
+
+
 
 // ================== GENERAZIONE REPORT ==================
 
@@ -260,6 +275,7 @@ void opzione_dieci() {
 
 int main () { 
 
+ 
     int scelta ; 
     Tecnico *lista_tecnici = NULL;
 
@@ -275,19 +291,19 @@ int main () {
         
         switch (scelta) {
 
-            case 1 : opzione_uno(); 
+            case 1 : opzione_uno(richieste, &nRichieste);           // Passiamo l'array richieste e il numero di richieste con &  
             break;
 			
 			case 2 : opzione_due(&lista_tecnici); // Passiamo l'indirizzo della lista con la &
             break;
 
-            case 3 : opzione_tre(); 
-            
+            case 3 : opzione_tre(richieste, &nRichieste, listaTecnici);  // opzione 3 funziona solo se la richiesta esiste e un tecnico è stato registrato, altrimenti stampa richiesta non trovata o nessun tecnico registrato
             break;
+
             case 4 : opzione_quattro(); 
             break;
 
-            case 5 : opzione_cinque() ; 
+            case 5:  aggiornaStatoRichiesta(richieste, nRichieste);        //opzione 5 funziona solo se la richiesta esiste e un tecnico è stato assegnato, altrimenti stampa richiesta non trovata o tecnico non assegnato
             break;
 
             case 6 : opzione_sei();
@@ -296,7 +312,7 @@ int main () {
             case 7 : opzione_sette();
             break;
 
-            case 8 : opzione_otto();
+            case 8 : visualizzaStorico(interventi, nInterventi);   // Passiamo l'array interventi e il numero di interventi con & 
             break;
 
             case 9 : opzione_nove();
