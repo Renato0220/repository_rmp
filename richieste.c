@@ -127,3 +127,178 @@ int cercaRichiestaPerCodice(
 
     return -1;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//                                    AGGIORNAMENTO STATO RICHIESTA 
+
+void aggiornaStatoRichiesta(
+    Richiesta richieste[],
+    int nRichieste
+) {
+    int codice;
+    int indice;
+
+    char nuovoStato[20];
+
+    printf("\nInserisci codice richiesta: ");
+    scanf("%d", &codice);
+
+                                                                                           // ricerca richiesta
+indice = cercaRichiestaPerCodice(
+    richieste,
+    nRichieste,
+    codice
+);
+
+if (indice == -1) {
+    printf("Richiesta non trovata\n");
+    return;
+}
+
+    printf("\nStato attuale: %s\n",
+           richieste[indice].stato);
+
+    
+int scelta;
+
+printf("\n====================================\n");
+printf("        AGGIORNAMENTO STATO         \n");
+printf("====================================\n");
+
+printf("Stato attuale: %s\n", richieste[indice].stato);
+
+printf("------------------------------------\n");
+printf("Seleziona il nuovo stato:\n");
+printf("------------------------------------\n");
+
+printf("  [1] Pianificata\n");
+printf("  [2] In lavorazione\n");
+printf("  [3] Conclusa\n");
+printf("  [4] Annullata\n");
+
+printf("------------------------------------\n");
+printf("Scelta: ");
+
+scanf("%d", &scelta);
+
+if(scelta < 1 || scelta > 4) {
+    printf("\nScelta non valida.\n");
+    return;
+}
+
+
+switch(scelta) {
+
+    case 1:
+        strcpy(nuovoStato, "pianificata");
+        break;
+
+    case 2:
+        strcpy(nuovoStato, "in_lavorazione");
+        break;
+
+    case 3:
+        strcpy(nuovoStato, "conclusa");
+        break;
+
+    case 4:
+        strcpy(nuovoStato, "annullata");
+        break;
+
+    default:
+        printf("\nScelta non valida.\n");
+        return;
+}
+
+
+
+    if (
+    strcmp(nuovoStato, "in_lavorazione") == 0 &&
+    richieste[indice].tecnicoAssegnato == -1
+) {
+    printf("Errore: nessun tecnico assegnato\n");
+    return;
+}
+
+
+
+                                                                                            // controllo validità cambio stato
+    if (
+        cambioStatoValido(
+            richieste[indice].stato,
+            nuovoStato
+        )
+    ) {
+
+        strcpy(
+            richieste[indice].stato,
+            nuovoStato
+        );
+
+        printf("\nStato aggiornato con successo\n");
+
+    } else {
+        printf("\nCambio stato NON consentito\n");
+    }
+}
+
+
+
+
+
+int cambioStatoValido(
+    char statoAttuale[],
+    char nuovoStato[]
+) {
+
+    if (
+        strcmp(statoAttuale, "aperta") == 0 &&
+        (
+            strcmp(nuovoStato, "pianificata") == 0 ||
+            strcmp(nuovoStato, "annullata") == 0
+        )
+    ) {
+        return 1;
+    }
+
+    if (
+        strcmp(statoAttuale, "pianificata") == 0 &&
+        (
+            strcmp(nuovoStato, "in_lavorazione") == 0 ||
+            strcmp(nuovoStato, "annullata") == 0
+        )
+    ) {
+        return 1;
+    }
+
+    if (
+        strcmp(statoAttuale, "in_lavorazione") == 0 &&
+        strcmp(nuovoStato, "conclusa") == 0
+    ) {
+        return 1;
+    }
+
+    return 0;
+}
+
+
+
+
+
